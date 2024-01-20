@@ -1,0 +1,1 @@
+export const isNotNull = <T>(obj: T | null): obj is NonNullable<T> => obj !== null;
