@@ -1,11 +1,12 @@
+import { FragmentType, useFragment } from "../gql/fragment-masking"
+import { characterItemFragment } from "../queries/fetchCharacters"
 
-export interface CharacterItemProps {
-  name: string;
-  species: string;
-  status: string;
-  src: string;
-}
-const CharacterItem = ({name, species, src, status}: CharacterItemProps) => {
+
+type CharacterFragmentType = FragmentType<typeof characterItemFragment>
+
+const CharacterItem = ({character}: {character: CharacterFragmentType}) => {
+  const {image, name, species, status} = useFragment(characterItemFragment, character)
+
   return (
     <div className="rounded-lg overflow-hidden shadow-lg">
     <img
@@ -13,7 +14,7 @@ const CharacterItem = ({name, species, src, status}: CharacterItemProps) => {
       className="w-full h-48 object-contain"
       width="400"
       height="400"
-      src={src}
+      src={image ?? ''}
     />
     <div className="p-4 infos">
       <h2 className="font-bold text-xl mb-2" data-name>{name}</h2>

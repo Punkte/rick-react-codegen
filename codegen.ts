@@ -8,7 +8,7 @@ const config: CodegenConfig = {
       preset: 'client',
       config: {
         avoidOptionals: true,
-      }
+      },
     }
   }
 }

@@ -1,5 +1,24 @@
 import { graphql } from "../gql";
-import { GetCharactersQuery } from "../gql/graphql";
+import { CharacterItemFragment } from "../gql/graphql";
+
+export const characterListItemFragment = graphql(`
+  fragment CharacterListItem on Character {
+    model: __typename
+    id
+    name
+    image
+  }
+`)
+
+export const characterItemFragment = graphql(`
+  fragment CharacterItem on Character {
+    model: __typename
+    name
+    status
+    species
+    image
+  }
+`)
 
 export const allCharactersQuery = graphql(`
   query GetCharacters($page: Int! = 1) {
@@ -8,14 +27,19 @@ export const allCharactersQuery = graphql(`
         next
       }
       results {
-        model: __typename
-        name
-        status
-        species
-        image
+        ...CharacterListItem
       }
     }
   }
 `);
+export const getCharacterQuery = graphql(`
+  query GetCharacterBy($id: ID!) {
+    character(id: $id) {
+      ...CharacterItem
+    }
+  }
+`);
 
-export type Character = NonNullable<NonNullable<NonNullable<GetCharactersQuery['characters']>['results']>[number]>
+
+
+export type Character = CharacterItemFragment
